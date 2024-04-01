@@ -22,17 +22,41 @@ class QuestionView @JvmOverloads constructor(
 
     private var state: QuestionState = QuestionState.Standby
 
+    private val imageList = listOf(
+        R.drawable.onepiece01_luffy,
+        R.drawable.onepiece02_zoro_bandana,
+        R.drawable.onepiece03_nami,
+        R.drawable.onepiece04_usopp_sogeking,
+        R.drawable.onepiece05_sanji,
+        R.drawable.onepiece06_chopper,
+        R.drawable.onepiece07_robin,
+        R.drawable.onepiece08_franky,
+        R.drawable.onepiece09_brook,
+        R.drawable.onepiece10_jinbe,
+        R.drawable.onepiece11_arlong,
+        R.drawable.onepiece12_buggy,
+        R.drawable.onepiece14_enel,
+        R.drawable.onepiece16_moria,
+        R.drawable.onepiece17_doflamingo,
+        R.drawable.onepiece19_kurohige_teach2,
+    )
+
     init {
         binding = ViewQuestionBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
     fun startQuestion(questions: List<Question>) {
+        // 初期化処理
         count = 0
         this.questions = questions
         binding.finish.visibility = GONE
         answerVisible(GONE)
+
+        // １問目を表示
         nextQuestion(count)
         state = QuestionState.ShowQuestion
+
+        // 自身を表示
         this.visibility = VISIBLE
 
         this.setOnClickListener {
@@ -63,30 +87,9 @@ class QuestionView @JvmOverloads constructor(
         }
     }
 
-    private val imageList = listOf(
-        R.drawable.onepiece01_luffy,
-        R.drawable.onepiece02_zoro_bandana,
-        R.drawable.onepiece03_nami,
-        R.drawable.onepiece04_usopp_sogeking,
-        R.drawable.onepiece05_sanji,
-        R.drawable.onepiece06_chopper,
-        R.drawable.onepiece07_robin,
-        R.drawable.onepiece08_franky,
-        R.drawable.onepiece09_brook,
-        R.drawable.onepiece10_jinbe,
-        R.drawable.onepiece11_arlong,
-        R.drawable.onepiece12_buggy,
-        R.drawable.onepiece14_enel,
-        R.drawable.onepiece16_moria,
-        R.drawable.onepiece17_doflamingo,
-        R.drawable.onepiece19_kurohige_teach2,
-
-
-    )
-
-    fun showFinishImage(){
+    private fun showFinishImage(){
         binding.finish.visibility = VISIBLE
-        val position = Random.nextInt(0, 16)
+        val position = Random.nextInt(0, imageList.size)
         binding.finishImage.setImageResource(imageList[position])
     }
 
@@ -134,5 +137,4 @@ class QuestionView @JvmOverloads constructor(
         object ShowAnswer : QuestionState()
         object Finish : QuestionState()
     }
-
 }

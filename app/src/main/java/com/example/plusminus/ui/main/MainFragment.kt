@@ -39,30 +39,34 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.buttonPlus.setOnClickListener {
-            val questions = createPlusQuestions(CREATE_COUNT)
+            val questions = distinctQuestions(CREATE_COUNT) {
+                createPlusQuestions(it)
+            }
             binding.questionView.startQuestion(questions)
         }
         binding.buttonMinus.setOnClickListener {
-            val questions = createMinusQuestions(CREATE_COUNT)
+            val questions = distinctQuestions(CREATE_COUNT) {
+                createMinusQuestions(it)
+            }
             binding.questionView.startQuestion(questions)
         }
 
         binding.buttonMix.setOnClickListener {
-            val plusQuestions = createPlusQuestions(CREATE_COUNT / 2)
-            val minusQuestions = createMinusQuestions(CREATE_COUNT / 2)
-            val list = plusQuestions.toMutableList()
-            list.addAll(minusQuestions)
-            list.shuffle()
-            binding.questionView.startQuestion(list)
+            val plusQuestions =
+                distinctQuestions(CREATE_COUNT / 2) { createPlusQuestions(it) }
+            val minusQuestions =
+                distinctQuestions(CREATE_COUNT / 2) { createMinusQuestions(it) }
+            val questions = shuffleCombine(plusQuestions, minusQuestions)
+            binding.questionView.startQuestion(questions)
         }
 
         binding.buttonMultiplication.setOnClickListener {
-            val questions = createMultiplicationQuestions(CREATE_COUNT)
+            val questions = distinctQuestions(CREATE_COUNT) { createMultiplicationQuestions(it) }
             binding.questionView.startQuestion(questions)
         }
 
         binding.buttonDivision.setOnClickListener {
-            val questions = createDivisionQuestions(CREATE_COUNT)
+            val questions = distinctQuestions(CREATE_COUNT) { createDivisionQuestions(it) }
             binding.questionView.startQuestion(questions)
         }
     }
@@ -70,6 +74,26 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun <T : Any> shuffleCombine(vararg lists: List<T>): List<T> {
+        val combinedList = mutableListOf<T>()
+        lists.forEach {
+            combinedList.addAll(it)
+        }
+        combinedList.shuffle()
+        return combinedList
+    }
+
+    private fun distinctQuestions(
+        createCount: Int,
+        create: (createCount: Int) -> List<Question>
+    ): List<Question> {
+        val createdQuestions = create.invoke(createCount).distinct()
+        if (createdQuestions.size < createCount) {
+            return distinctQuestions(createCount, create)
+        }
+        return createdQuestions
     }
 
     /**

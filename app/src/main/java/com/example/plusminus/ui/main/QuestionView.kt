@@ -71,12 +71,12 @@ class QuestionView @JvmOverloads constructor(
                 QuestionState.ShowAnswer -> {
                     answerVisible(GONE)
                     count++
-                    if (count < questions.size) {
+                    state = if (count < questions.size) {
                         nextQuestion(count)
-                        state = QuestionState.ShowQuestion
+                        QuestionState.ShowQuestion
                     } else {
                         showFinishImage()
-                        state = QuestionState.Finish
+                        QuestionState.Finish
                     }
                 }
                 QuestionState.Finish -> {
@@ -125,10 +125,6 @@ class QuestionView @JvmOverloads constructor(
                 answer.answer.toString()
             }
         }
-    }
-
-    private fun finish() {
-
     }
 
     sealed class QuestionState {

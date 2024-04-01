@@ -1,6 +1,7 @@
 package com.example.plusminus.ui.main
 
 import android.content.Context
+import android.net.IpPrefix
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -21,6 +22,8 @@ class QuestionView @JvmOverloads constructor(
     private val binding: ViewQuestionBinding
 
     private var state: QuestionState = QuestionState.Standby
+
+    private var counter = Counter()
 
     private val imageList = listOf(
         R.drawable.onepiece01_luffy,
@@ -47,6 +50,7 @@ class QuestionView @JvmOverloads constructor(
 
     fun startQuestion(questions: List<Question>) {
         // 初期化処理
+        counter.reset()
         count = 0
         this.questions = questions
         binding.finish.visibility = GONE
@@ -64,10 +68,13 @@ class QuestionView @JvmOverloads constructor(
                 QuestionState.Standby -> {
                     answerVisible(GONE)
                 }
+
                 QuestionState.ShowQuestion -> {
+                    binding.answerTime.text = counter.stop().formatAnswerTime("かかった時間")
                     answerVisible(VISIBLE)
                     state = QuestionState.ShowAnswer
                 }
+
                 QuestionState.ShowAnswer -> {
                     answerVisible(GONE)
                     count++
@@ -75,10 +82,13 @@ class QuestionView @JvmOverloads constructor(
                         nextQuestion(count)
                         QuestionState.ShowQuestion
                     } else {
+                        binding.sumTime.text = counter.sumTime().formatAnswerTime("合計")
+                        binding.aveTime.text = "一問あたりの平均：%.03f秒".format(counter.aveTime())
                         showFinishImage()
                         QuestionState.Finish
                     }
                 }
+
                 QuestionState.Finish -> {
                     state = QuestionState.Standby
                     this.visibility = GONE
@@ -87,7 +97,7 @@ class QuestionView @JvmOverloads constructor(
         }
     }
 
-    private fun showFinishImage(){
+    private fun showFinishImage() {
         binding.finish.visibility = VISIBLE
         val position = Random.nextInt(0, imageList.size)
         binding.finishImage.setImageResource(imageList[position])
@@ -96,9 +106,11 @@ class QuestionView @JvmOverloads constructor(
     private fun answerVisible(visibility: Int) {
         binding.answerLabel.visibility = visibility
         binding.answer.visibility = visibility
+        binding.answerTime.visibility = visibility
     }
 
     private fun nextQuestion(questionPosition: Int) {
+        counter.start()
         val question = questions[questionPosition]
         binding.title.text = "第${questionPosition + 1}問"
 
@@ -115,15 +127,63 @@ class QuestionView @JvmOverloads constructor(
                 if (answer.remainder == 0) {
                     binding.answer.textSize = 80f
                     answer.answer.toString()
-                }else{
+                } else {
                     binding.answer.textSize = 40f
                     "%d あまり %d".format(answer.answer, answer.remainder)
                 }
             }
+
             is Answer.SingleAnswer -> {
                 binding.answer.textSize = 80f
                 answer.answer.toString()
             }
+        }
+    }
+
+    private fun Long.formatAnswerTime(prefix: String): String {
+        val minutes: Long = this % (1000 * 60 * 60) / (1000 * 60)
+        val seconds: Long = this % (1000 * 60) / 1000
+        return String.format("%s：%02d:%02d.%01d秒",prefix,  minutes, seconds, this % 1000)
+    }
+
+    data class AnswerTime(
+        var startTime: Long = System.currentTimeMillis(),
+        var endTime: Long = 0
+    ) {
+
+        /**
+         * 回答にかかった時間
+         */
+        fun getTime(): Long = endTime - startTime
+    }
+
+    class Counter {
+        private val answerTimes = mutableListOf<AnswerTime>()
+        private var currentAnswerTime: AnswerTime? = null
+
+        fun reset() {
+            currentAnswerTime = null
+            answerTimes.clear()
+        }
+
+        fun start() {
+            currentAnswerTime = AnswerTime()
+        }
+
+        fun stop(): Long {
+            return currentAnswerTime?.let {
+                it.endTime = System.currentTimeMillis()
+                answerTimes.add(it)
+                it.getTime()
+            } ?: 0L
+        }
+
+        fun sumTime(): Long {
+            return answerTimes.sumOf { it.getTime() }
+        }
+
+        fun aveTime(): Double {
+            return answerTimes.map { it.getTime() }.average() / 1000
         }
     }
 

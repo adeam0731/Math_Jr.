@@ -44,7 +44,6 @@ class MenuAdapter(context: Context) : RecyclerView.Adapter<MenuAdapter.ViewHolde
 
 interface OnClickMenuListener {
     fun onClickMenu(menu: Menu)
-
 }
 
 data class Menu(
@@ -60,4 +59,3 @@ enum class MenuNo {
     LV2_MULTIPLICATION,
     LV2_DIVISION,
 }
-

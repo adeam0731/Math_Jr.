@@ -122,8 +122,9 @@ class MainFragment : Fragment() {
     private fun createMinusQuestions(createCount: Int): List<Question> {
         return (0 until createCount).map {
             val value1 = Random.nextInt(10, 100)
-            val value1sStr = value1.toString().substring(1, 2)
-            val value2 = Random.nextInt(value1sStr.toInt(), 10)
+            val value1Str = value1.toString()
+            val onePlace = value1Str.substring(value1Str.length - 1, value1Str.length)
+            val value2 = Random.nextInt(onePlace.toInt(), 10)
 
             Question(
                 QuestionItem.Minus(value1, value2),

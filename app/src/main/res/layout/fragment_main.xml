@@ -24,7 +24,7 @@
                 android:layout_height="300dp"
                 android:layout_marginTop="40dp"
                 android:src="@drawable/cat_study"
-                android:text="算数練習アプリ"
+                android:text="自宅学習アプリ"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +36,7 @@
                 android:background="#11bbaa"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="2dp"
-                android:text="学習したい項目を選択してください"
+                android:text="勉強したいものを選んでください"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/menu_list"

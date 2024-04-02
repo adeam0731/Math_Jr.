@@ -15,51 +15,67 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#eeeeee"
-            android:paddingHorizontal="6dp"
             tools:context=".ui.main.MainFragment">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="16dp"
+                android:adjustViewBounds="true"
+                android:padding="20dp"
+                android:src="@drawable/cat_study"
+                app:layout_constraintBottom_toTopOf="@id/message"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title" />
 
             <TextView
                 android:id="@+id/imageBackText1"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center_vertical|start"
+                android:paddingStart="16dp"
                 android:text="Let's"
                 android:textColor="@color/black"
                 android:textSize="40dp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/message"
                 app:layout_constraintEnd_toStartOf="@id/imageBackText2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title"
-                app:layout_constraintBottom_toTopOf="@id/message"
-                android:paddingStart="16dp"/>
+                app:layout_constraintTop_toBottomOf="@id/title" />
 
             <TextView
                 android:id="@+id/imageBackText2"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center_vertical|end"
+                android:paddingEnd="16dp"
                 android:text="study!"
                 android:textColor="@color/black"
                 android:textSize="40dp"
                 android:textStyle="bold"
-                android:paddingEnd="16dp"
+                app:layout_constraintBottom_toTopOf="@id/message"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imageBackText1"
-                app:layout_constraintTop_toBottomOf="@id/title"
-                app:layout_constraintBottom_toTopOf="@id/message"/>
+                app:layout_constraintTop_toBottomOf="@id/title" />
 
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:src="@drawable/cat_study"
-                android:adjustViewBounds="true"
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:background="#11bbaa"
+                android:gravity="center"
+                android:paddingVertical="6dp"
+                android:text="自宅学習アプリ"
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title"
-                app:layout_constraintBottom_toTopOf="@id/message"
-                android:padding="16dp"
-                android:layout_marginEnd="16dp"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/message"
@@ -73,38 +89,23 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/menu_list"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="自宅学習アプリ"
-                android:textColor="@color/white"
-                android:background="#11bbaa"
-                android:gravity="center"
-                android:textSize="24dp"
-                android:textStyle="bold"
-                android:paddingVertical="6dp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/image" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/menu_list"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:background="@color/white"
-                android:layout_marginBottom="6dp"
+                android:background="#eeeeee"
                 android:overScrollMode="never"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/message" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.example.plusminus.ui.main.QuestionView
+        <com.example.plusminus.ui.main.MathQuestionView
             android:id="@+id/question_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -59,6 +59,8 @@ class MainFragment : Fragment(), OnClickMenuListener {
     }
 
     override fun onClickMenu(menu: Menu) {
+        binding.mathQuestionView.visibility = View.GONE
+        binding.nationalLanguageQuestionView.visibility = View.GONE
         when (menu) {
             // ２年生
             is Menu.Lv2 -> {
@@ -99,7 +101,7 @@ class MainFragment : Fragment(), OnClickMenuListener {
                                 shuffleCombine(multiplicationQuestions, divisionQuestions)
                             }
                         }
-                        binding.questionView.startQuestion(questions)
+                        binding.mathQuestionView.startQuestion(questions)
                     }
                     is Menu.Lv2.NationalLanguage ->{
 

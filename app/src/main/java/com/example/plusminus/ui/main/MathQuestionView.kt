@@ -23,14 +23,17 @@ class MathQuestionView @JvmOverloads constructor(
     }
 
     override fun nextQuestion(countNo: String, question: Question) {
+        val questionItem = question.question
+        if (questionItem !is QuestionItem.Math) return
+        binding.nextMessage.text = "画面をタップすると答えを表示します"
         binding.title.text = countNo
-        binding.value1.text = question.question.value1.toString()
-        binding.value2.text = question.question.value2.toString()
-        binding.operator.text = when (question.question) {
-            is QuestionItem.Minus -> "-"
-            is QuestionItem.Plus -> "+"
-            is QuestionItem.Multiplication -> "×"
-            is QuestionItem.Division -> "÷"
+        binding.value1.text = questionItem.value1.toString()
+        binding.value2.text = questionItem.value2.toString()
+        binding.operator.text = when (questionItem) {
+            is QuestionItem.Math.Minus -> "-"
+            is QuestionItem.Math.Plus -> "+"
+            is QuestionItem.Math.Multiplication -> "×"
+            is QuestionItem.Math.Division -> "÷"
         }
         binding.answer.text = when (val answer = question.answer) {
             is Answer.DivisionAnswer -> {
@@ -64,6 +67,7 @@ class MathQuestionView @JvmOverloads constructor(
     }
 
     override fun showAnswer(time: String) {
+        binding.nextMessage.text = "画面をタップすると次の問題を表示します"
         binding.answerTime.text = time
     }
 }

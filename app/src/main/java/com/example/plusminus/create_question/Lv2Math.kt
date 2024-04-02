@@ -23,7 +23,7 @@ object Lv2Math {
             }
 
             Question(
-                QuestionItem.Plus(value1, value2),
+                QuestionItem.Math.Plus(value1, value2),
                 answer = Answer.SingleAnswer(value1 + value2)
             )
         }
@@ -40,7 +40,7 @@ object Lv2Math {
             val value2 = Random.nextInt(onePlace.toInt(), 10)
 
             Question(
-                QuestionItem.Minus(value1, value2),
+                QuestionItem.Math.Minus(value1, value2),
                 answer = Answer.SingleAnswer(value1 - value2)
             )
         }
@@ -55,7 +55,7 @@ object Lv2Math {
             val value2 = Random.nextInt(1, 10)
 
             Question(
-                QuestionItem.Multiplication(value1, value2),
+                QuestionItem.Math.Multiplication(value1, value2),
                 answer = Answer.SingleAnswer(value1 * value2)
             )
         }
@@ -67,7 +67,7 @@ object Lv2Math {
             val value2 = Random.nextInt(11, 100)
 
             Question(
-                QuestionItem.Multiplication(value1, value2),
+                QuestionItem.Math.Multiplication(value1, value2),
                 answer = Answer.SingleAnswer(value1 * value2)
             )
         }
@@ -82,7 +82,7 @@ object Lv2Math {
             val remainder = value1 % value2
 
             Question(
-                QuestionItem.Division(value1, value2),
+                QuestionItem.Math.Division(value1, value2),
                 answer = Answer.DivisionAnswer(answer = answer, remainder = remainder)
             )
         }

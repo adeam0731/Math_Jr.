@@ -54,7 +54,7 @@ class QuestionView @JvmOverloads constructor(
         count = 0
         this.questions = questions
         binding.finish.visibility = GONE
-        answerVisible(GONE)
+        answerVisible(INVISIBLE)
 
         // １問目を表示
         nextQuestion(count)
@@ -66,7 +66,7 @@ class QuestionView @JvmOverloads constructor(
         this.setOnClickListener {
             when (state) {
                 QuestionState.Standby -> {
-                    answerVisible(GONE)
+                    answerVisible(INVISIBLE)
                 }
 
                 QuestionState.ShowQuestion -> {
@@ -76,7 +76,7 @@ class QuestionView @JvmOverloads constructor(
                 }
 
                 QuestionState.ShowAnswer -> {
-                    answerVisible(GONE)
+                    answerVisible(INVISIBLE)
                     count++
                     state = if (count < questions.size) {
                         nextQuestion(count)
@@ -91,7 +91,7 @@ class QuestionView @JvmOverloads constructor(
 
                 QuestionState.Finish -> {
                     state = QuestionState.Standby
-                    this.visibility = GONE
+                    this.visibility = INVISIBLE
                 }
             }
         }
@@ -104,9 +104,7 @@ class QuestionView @JvmOverloads constructor(
     }
 
     private fun answerVisible(visibility: Int) {
-        binding.answerLabel.visibility = visibility
-        binding.answer.visibility = visibility
-        binding.answerTime.visibility = visibility
+        binding.answerContainer.visibility = visibility
     }
 
     private fun nextQuestion(questionPosition: Int) {

@@ -6,28 +6,60 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#00aaaa"
-        android:padding="10dp"
+        android:background="#11bbaa"
+        android:padding="4dp"
         tools:context=".ui.main.MainFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            android:paddingHorizontal="16dp"
+            android:background="#eeeeee"
+            android:paddingHorizontal="6dp"
             tools:context=".ui.main.MainFragment">
+
+            <TextView
+                android:id="@+id/imageBackText1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center_vertical|start"
+                android:text="Let's"
+                android:textColor="@color/black"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/imageBackText2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintBottom_toTopOf="@id/message"
+                android:paddingStart="16dp"/>
+
+            <TextView
+                android:id="@+id/imageBackText2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center_vertical|end"
+                android:text="study!"
+                android:textColor="@color/black"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                android:paddingEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imageBackText1"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintBottom_toTopOf="@id/message"/>
 
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="160dp"
-                android:layout_height="300dp"
-                android:layout_marginTop="40dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:src="@drawable/cat_study"
-                android:text="自宅学習アプリ"
+                android:adjustViewBounds="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintBottom_toTopOf="@id/message"
+                android:padding="16dp"
+                android:layout_marginEnd="16dp"/>
 
             <TextView
                 android:id="@+id/message"
@@ -35,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:background="#11bbaa"
                 android:paddingHorizontal="10dp"
-                android:paddingVertical="2dp"
+                android:paddingVertical="4dp"
                 android:text="勉強したいものを選んでください"
                 android:textColor="@color/white"
                 android:textStyle="bold"
@@ -45,13 +77,16 @@
 
             <TextView
                 android:id="@+id/title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="算数練習アプリ"
-                android:textColor="@color/black"
+                android:layout_marginTop="6dp"
+                android:text="自宅学習アプリ"
+                android:textColor="@color/white"
+                android:background="#11bbaa"
+                android:gravity="center"
                 android:textSize="24dp"
                 android:textStyle="bold"
+                android:paddingVertical="6dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -60,10 +95,9 @@
                 android:id="@+id/menu_list"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:layout_marginBottom="16dp"
-                android:background="#11bbaa"
+                android:background="@color/white"
+                android:layout_marginBottom="6dp"
                 android:overScrollMode="never"
-                android:padding="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

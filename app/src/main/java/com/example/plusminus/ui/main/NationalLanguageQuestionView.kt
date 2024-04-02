@@ -2,23 +2,29 @@ package com.example.plusminus.ui.main
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.plusminus.R
+import com.example.plusminus.databinding.ViewQuestionBinding
+import kotlin.random.Random
 
-abstract class QuestionView @JvmOverloads constructor(
+class NationalLanguageQuestionView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : ConstraintLayout(context, attrs, defStyle) {
+) :
+    ConstraintLayout(context, attrs, defStyle) {
 
     private var questions: List<Question> = emptyList()
     private var count: Int = 0
+
+    private val binding: ViewQuestionBinding
 
     private var state: QuestionState = QuestionState.Standby
 
     private var counter = Counter()
 
-    val imageList = listOf(
+    private val imageList = listOf(
         R.drawable.onepiece01_luffy,
         R.drawable.onepiece02_zoro_bandana,
         R.drawable.onepiece03_nami,
@@ -37,21 +43,16 @@ abstract class QuestionView @JvmOverloads constructor(
         R.drawable.onepiece19_kurohige_teach2,
     )
 
-    abstract fun answerVisible(visibility: Int)
-
-    abstract fun nextQuestion(countNo: String, question: Question)
-
-    abstract fun onStart()
-    abstract fun onFinish(sumTime: String, aveTime: String)
-
-    abstract fun showAnswer(time: String)
+    init {
+        binding = ViewQuestionBinding.inflate(LayoutInflater.from(context), this, true)
+    }
 
     fun startQuestion(questions: List<Question>) {
         // 初期化処理
         counter.reset()
         count = 0
         this.questions = questions
-        onStart()
+        binding.finish.visibility = GONE
         answerVisible(INVISIBLE)
 
         // １問目を表示
@@ -68,7 +69,7 @@ abstract class QuestionView @JvmOverloads constructor(
                 }
 
                 QuestionState.ShowQuestion -> {
-                    showAnswer(counter.stop().formatAnswerTime("かかった時間"))
+                    binding.answerTime.text = counter.stop().formatAnswerTime("かかった時間")
                     answerVisible(VISIBLE)
                     state = QuestionState.ShowAnswer
                 }
@@ -80,7 +81,9 @@ abstract class QuestionView @JvmOverloads constructor(
                         nextQuestion(count)
                         QuestionState.ShowQuestion
                     } else {
-                        onFinish(counter.sumTime().formatAnswerTime("合計"), "一問あたりの平均：%.03f秒".format(counter.aveTime()))
+                        binding.sumTime.text = counter.sumTime().formatAnswerTime("合計")
+                        binding.aveTime.text = "一問あたりの平均：%.03f秒".format(counter.aveTime())
+                        showFinishImage()
                         QuestionState.Finish
                     }
                 }
@@ -93,10 +96,45 @@ abstract class QuestionView @JvmOverloads constructor(
         }
     }
 
+    private fun showFinishImage() {
+        binding.finish.visibility = VISIBLE
+        val position = Random.nextInt(0, imageList.size)
+        binding.finishImage.setImageResource(imageList[position])
+    }
+
+    private fun answerVisible(visibility: Int) {
+        binding.answerContainer.visibility = visibility
+    }
+
     private fun nextQuestion(questionPosition: Int) {
         counter.start()
         val question = questions[questionPosition]
-        nextQuestion("第${questionPosition + 1}問", question)
+        binding.title.text = "第${questionPosition + 1}問"
+
+        binding.value1.text = question.question.value1.toString()
+        binding.value2.text = question.question.value2.toString()
+        binding.operator.text = when (question.question) {
+            is QuestionItem.Minus -> "-"
+            is QuestionItem.Plus -> "+"
+            is QuestionItem.Multiplication -> "×"
+            is QuestionItem.Division -> "÷"
+        }
+        binding.answer.text = when (val answer = question.answer) {
+            is Answer.DivisionAnswer -> {
+                if (answer.remainder == 0) {
+                    binding.answer.textSize = 80f
+                    answer.answer.toString()
+                } else {
+                    binding.answer.textSize = 40f
+                    "%d あまり %d".format(answer.answer, answer.remainder)
+                }
+            }
+
+            is Answer.SingleAnswer -> {
+                binding.answer.textSize = 80f
+                answer.answer.toString()
+            }
+        }
     }
 
     private fun Long.formatAnswerTime(prefix: String): String {

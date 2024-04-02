@@ -1,0 +1,69 @@
+package com.example.plusminus.ui.main
+
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import com.example.plusminus.databinding.ViewQuestionBinding
+import kotlin.random.Random
+
+class MathQuestionView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : QuestionView(context, attrs, defStyle) {
+
+    private val binding: ViewQuestionBinding
+
+    init {
+        binding = ViewQuestionBinding.inflate(LayoutInflater.from(context), this, true)
+    }
+
+    override fun answerVisible(visibility: Int) {
+        binding.answerContainer.visibility = visibility
+    }
+
+    override fun nextQuestion(countNo: String, question: Question) {
+        binding.title.text = countNo
+        binding.value1.text = question.question.value1.toString()
+        binding.value2.text = question.question.value2.toString()
+        binding.operator.text = when (question.question) {
+            is QuestionItem.Minus -> "-"
+            is QuestionItem.Plus -> "+"
+            is QuestionItem.Multiplication -> "×"
+            is QuestionItem.Division -> "÷"
+        }
+        binding.answer.text = when (val answer = question.answer) {
+            is Answer.DivisionAnswer -> {
+                if (answer.remainder == 0) {
+                    binding.answer.textSize = 80f
+                    answer.answer.toString()
+                } else {
+                    binding.answer.textSize = 40f
+                    "%d あまり %d".format(answer.answer, answer.remainder)
+                }
+            }
+
+            is Answer.SingleAnswer -> {
+                binding.answer.textSize = 80f
+                answer.answer.toString()
+            }
+        }
+    }
+
+    override fun onStart() {
+        binding.finish.visibility = GONE
+    }
+
+    override fun onFinish(sumTime: String, aveTime: String) {
+        binding.finish.visibility = VISIBLE
+        val position = Random.nextInt(0, imageList.size)
+        binding.finishImage.setImageResource(imageList[position])
+
+        binding.sumTime.text = sumTime
+        binding.aveTime.text = aveTime
+    }
+
+    override fun showAnswer(time: String) {
+        binding.answerTime.text = time
+    }
+}

@@ -59,35 +59,59 @@ class MainFragment : Fragment(), OnClickMenuListener {
     }
 
     override fun onClickMenu(menu: Menu) {
-        val questions = when (menu.no) {
-            MenuNo.LV2_PLUS -> {
-                distinctQuestions(CREATE_COUNT) { Lv2Math.createPlusQuestions(it) }
-            }
+        when (menu) {
+            // ２年生
+            is Menu.Lv2 -> {
+                when (menu) {
+                    //算数
+                    is Menu.Lv2.Math -> {
+                        val questions = when (menu) {
+                            Menu.Lv2.Math.Lv2Plus -> {
+                                distinctQuestions(CREATE_COUNT) { Lv2Math.createPlusQuestions(it) }
+                            }
 
-            MenuNo.LV2_MINUS -> {
-                distinctQuestions(CREATE_COUNT) { Lv2Math.createMinusQuestions(it) }
-            }
+                            Menu.Lv2.Math.Lv2Minus -> {
+                                distinctQuestions(CREATE_COUNT) { Lv2Math.createMinusQuestions(it) }
+                            }
 
-            MenuNo.LV2_PLUS_MINUS_MIX -> {
-                val plusQuestions = distinctQuestions(CREATE_COUNT / 2) { Lv2Math.createPlusQuestions(it) }
-                val minusQuestions = distinctQuestions(CREATE_COUNT / 2) { Lv2Math.createMinusQuestions(it) }
-                shuffleCombine(plusQuestions, minusQuestions)
-            }
+                            Menu.Lv2.Math.Lv2PlusMinusMix -> {
+                                val plusQuestions = distinctQuestions(CREATE_COUNT / 2) { Lv2Math.createPlusQuestions(it) }
+                                val minusQuestions = distinctQuestions(CREATE_COUNT / 2) { Lv2Math.createMinusQuestions(it) }
+                                shuffleCombine(plusQuestions, minusQuestions)
+                            }
 
-            MenuNo.LV2_MULTIPLICATION -> {
-                distinctQuestions(CREATE_COUNT) { Lv2Math.createMultiplicationQuestions(it) }
+                            Menu.Lv2.Math.Lv2Multiplication -> {
+                                distinctQuestions(CREATE_COUNT) { Lv2Math.createMultiplicationQuestions(it) }
+                            }
 
-            }
+                            Menu.Lv2.Math.Lv2Multiplication2 -> {
+                                distinctQuestions(CREATE_COUNT) { Lv2Math.createMultiplication2Questions(it) }
+                            }
 
-            MenuNo.LV2_DIVISION -> {
-                distinctQuestions(CREATE_COUNT) { Lv2Math.createDivisionQuestions(it) }
+                            Menu.Lv2.Math.Lv2Division -> {
+                                distinctQuestions(CREATE_COUNT) { Lv2Math.createDivisionQuestions(it) }
+                            }
 
+                            Menu.Lv2.Math.Lv2MultiplicationDivisionMix -> {
+                                val multiplicationQuestions =
+                                    distinctQuestions(CREATE_COUNT / 2) { Lv2Math.createMultiplication2Questions(it) }
+                                val divisionQuestions = distinctQuestions(CREATE_COUNT / 2) { Lv2Math.createDivisionQuestions(it) }
+                                shuffleCombine(multiplicationQuestions, divisionQuestions)
+                            }
+                        }
+                        binding.questionView.startQuestion(questions)
+                    }
+                    is Menu.Lv2.NationalLanguage ->{
+
+                    }
+                }
             }
         }
-        binding.questionView.startQuestion(questions)
     }
 
-
+    /**
+     * listをぎゃっちゃんこしてシャッフル
+     */
     private fun <T : Any> shuffleCombine(vararg lists: List<T>): List<T> {
         val combinedList = mutableListOf<T>()
         lists.forEach {
@@ -97,6 +121,10 @@ class MainFragment : Fragment(), OnClickMenuListener {
         return combinedList
     }
 
+    /**
+     * 問題が重複しないようにする
+     * NOTE: 改善の余地すごいあり
+     */
     private fun distinctQuestions(
         createCount: Int,
         create: (createCount: Int) -> List<Question>

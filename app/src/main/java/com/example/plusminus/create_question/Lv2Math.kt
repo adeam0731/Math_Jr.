@@ -61,6 +61,18 @@ object Lv2Math {
         }
     }
 
+    fun createMultiplication2Questions(createCount: Int): List<Question> {
+        return (0 until createCount).map {
+            val value1 = Random.nextInt(11, 100)
+            val value2 = Random.nextInt(11, 100)
+
+            Question(
+                QuestionItem.Multiplication(value1, value2),
+                answer = Answer.SingleAnswer(value1 * value2)
+            )
+        }
+    }
+
     fun createDivisionQuestions(createCount: Int): List<Question> {
         return (0 until createCount).map {
             val value1 = Random.nextInt(1, 99)

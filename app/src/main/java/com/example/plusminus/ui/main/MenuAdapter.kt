@@ -13,11 +13,13 @@ class MenuAdapter(context: Context) : RecyclerView.Adapter<MenuAdapter.ViewHolde
     var onClickMenuListener: OnClickMenuListener? = null
 
     private val menuList = mutableListOf(
-        Menu(MenuNo.LV2_PLUS, "２年生", "くり上がりの足し算"),
-        Menu(MenuNo.LV2_MINUS, "２年生", "くり下がり足し算"),
-        Menu(MenuNo.LV2_PLUS_MINUS_MIX, "２年生", "くり上がり,くり下がりMIX"),
-        Menu(MenuNo.LV2_MULTIPLICATION, "２年生", "かけ算(九九)"),
-        Menu(MenuNo.LV2_DIVISION, "２年生", "わり算")
+        Menu.Lv2.Math.Lv2Plus,
+        Menu.Lv2.Math.Lv2Minus,
+        Menu.Lv2.Math.Lv2PlusMinusMix,
+        Menu.Lv2.Math.Lv2Multiplication,
+        Menu.Lv2.Math.Lv2Multiplication2,
+        Menu.Lv2.Math.Lv2Division,
+        Menu.Lv2.Math.Lv2MultiplicationDivisionMix
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,6 +36,7 @@ class MenuAdapter(context: Context) : RecyclerView.Adapter<MenuAdapter.ViewHolde
     class ViewHolder(private val binding: HolderMenuBinding) : RecyclerView.ViewHolder(binding.root) {
         fun set(menu: Menu, onClickMenuListener: OnClickMenuListener?) {
             binding.level.text = menu.level
+            binding.subject.text = menu.subject
             binding.label.text = menu.label
             binding.root.setOnClickListener {
                 onClickMenuListener?.onClickMenu(menu)
@@ -46,16 +49,46 @@ interface OnClickMenuListener {
     fun onClickMenu(menu: Menu)
 }
 
-data class Menu(
-    val no: MenuNo,
-    val level: String,
-    val label: String
-)
+sealed class Menu(
+    open val level: String,
+    open val subject: String,
+    open val label: String,
+) {
+    sealed class Lv2(
+        override val label: String,
+        override val subject: String,
+    ) : Menu(level = "２年生", subject = subject, label = label) {
+        sealed class Math(
+            override val level: String,
+            override val label: String,
+        ) : Lv2(subject = "算数", label = label) {
+            /** くり上がりの足し算 */
+            object Lv2Plus : Math("２年生", "くり上がりの足し算")
 
-enum class MenuNo {
-    LV2_PLUS,
-    LV2_MINUS,
-    LV2_PLUS_MINUS_MIX,
-    LV2_MULTIPLICATION,
-    LV2_DIVISION,
+            /** くり下がり引き算 */
+            object Lv2Minus : Math("２年生", "くり下がり引き算")
+
+            /** くり上がり,くり下がりMIX */
+            object Lv2PlusMinusMix : Math("２年生", "くり上がり,くり下がりMIX")
+
+            /** かけ算(九九) */
+            object Lv2Multiplication : Math("２年生", "かけ算(九九)")
+
+            /** かけ算 */
+            object Lv2Multiplication2 : Math("２年生", "かけ算")
+
+            /** わり算 */
+            object Lv2Division : Math("２年生", "わり算")
+
+            /** かけ算、わり算MIX */
+            object Lv2MultiplicationDivisionMix : Math("２年生", "かけ算、わり算MIX")
+        }
+
+        sealed class NationalLanguage(
+            override val level: String,
+            override val label: String,
+        ) : Lv2(subject = "国語", label = label) {
+
+        }
+    }
 }

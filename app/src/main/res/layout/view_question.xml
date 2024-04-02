@@ -8,66 +8,6 @@
         android:layout_height="match_parent"
         android:background="#eeeeee">
 
-        <LinearLayout
-            android:id="@+id/question_container"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="50dp"
-            android:background="@color/main_light"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title">
-
-            <TextView
-                android:id="@+id/value1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="12"
-                android:textColor="@color/black"
-                android:textSize="38dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/operator"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="+"
-                android:textColor="@color/black"
-                android:textSize="38dp"
-                android:textStyle="bold" />
-
-
-            <TextView
-                android:id="@+id/value2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="9"
-                android:textColor="@color/black"
-                android:textSize="38dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/equal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="="
-                android:textColor="@color/black"
-                android:textSize="38dp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
@@ -80,10 +20,87 @@
             android:textColor="@color/white"
             android:textSize="30dp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/question_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <LinearLayout
+            android:id="@+id/question_container"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/main_light"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingHorizontal="50dp"
+            android:layout_marginVertical="30dp"
+            app:layout_constraintBottom_toTopOf="@id/answer_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="次の計算を答えましょう"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/value1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="12"
+                    android:textColor="@color/black"
+                    android:textSize="38dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/operator"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textColor="@color/black"
+                    android:textSize="38dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/value2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="9"
+                    android:textColor="@color/black"
+                    android:textSize="38dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/equal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="="
+                    android:textColor="@color/black"
+                    android:textSize="38dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/answer_container"
@@ -134,18 +151,33 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/next_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingVertical="12dp"
+            android:text="画面をタップすると答えが表示されます"
+            android:background="#cccc00"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <!--完了画面-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/finish"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/white"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <ImageView
                 android:id="@+id/finish_image"
@@ -188,10 +220,10 @@
                     android:text="30"
                     android:textColor="@color/white"
                     android:textSize="20dp"
+                    app:layout_constraintBottom_toTopOf="@id/aveTime"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/finish_label"
-                    app:layout_constraintBottom_toTopOf="@id/aveTime"/>
+                    app:layout_constraintTop_toBottomOf="@id/finish_label" />
 
                 <TextView
                     android:id="@+id/aveTime"
@@ -200,10 +232,10 @@
                     android:text="30"
                     android:textColor="@color/white"
                     android:textSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sumTime"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/sumTime" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

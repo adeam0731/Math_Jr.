@@ -106,7 +106,13 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.example.plusminus.ui.main.MathQuestionView
-            android:id="@+id/question_view"
+            android:id="@+id/math_question_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <com.example.plusminus.ui.main.NationalLanguageQuestionView
+            android:id="@+id/national_language_question_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />
